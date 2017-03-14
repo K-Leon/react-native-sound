@@ -70,7 +70,11 @@ public class RNSoundModule extends ReactContextBaseJavaModule {
   public void play(final Integer key, final Callback callback) {
     MediaPlayer player = this.playerPool.get(key);
     if (player == null) {
-      callback.invoke(false);
+      try {
+        callback.invoke(false);
+      } catch (Exception exception) {
+
+      }
       return;
     }
     if (player.isPlaying()) {
@@ -81,7 +85,11 @@ public class RNSoundModule extends ReactContextBaseJavaModule {
       public void onCompletion(MediaPlayer mp) {
         if (!mp.isLooping()) {
           mp.setOnErrorListener(null);
-          callback.invoke(true);
+          try {
+            callback.invoke(true);
+          } catch (Exception exception) {
+
+          }
         }
       }
     });
@@ -89,7 +97,11 @@ public class RNSoundModule extends ReactContextBaseJavaModule {
       @Override
       public boolean onError(MediaPlayer mp, int what, int extra) {
         mp.setOnCompletionListener(null);
-        callback.invoke(false);
+        try {
+          callback.invoke(false);
+        } catch (Exception exception) {
+
+        }
         return true;
       }
     });
